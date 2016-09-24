@@ -26,7 +26,7 @@ app.set('views', path.join(__dirname, '/src'))
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine({
   doctype: '<!DOCTYPE html>',
-  beautify: (process.env.NODE_ENV === 'development'),
+  beautify: (process.env.NODE_ENV !== 'production'),
   transformViews: true,
   babel: {
     presets: ['es2015', 'react']

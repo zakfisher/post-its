@@ -11,13 +11,10 @@ class App extends GLOBAL.React.Component {
   constructor(props) {
     super(props)
     this.mixins = Reflux.connect([ClientRoutes.Store], 'router')
-    this.pages = {
-      'home': Home,
-      'note': Note,
-    }
 
     // Set default page (from server)
-    const defaultPage = this.getPage(this.props.page, this.props)
+    this.currentPage = this.props.page
+    const defaultPage = this.getPage(this.currentPage, this.props)
     this.state = { page: defaultPage }
   }
 
@@ -30,8 +27,12 @@ class App extends GLOBAL.React.Component {
     All url changes on the client set new props from url params.
   */
   getPage(page, props) {
-    const Page = this.pages[page]
-    return <Page {...props} />
+    switch (page) {
+      case 'note':
+        return <Note {...props} />
+      default:
+        return <Home {...props} />
+    }
   }
 
   componentDidMount() {
@@ -42,7 +43,9 @@ class App extends GLOBAL.React.Component {
     switch (data.action) {
       case 'go to page':
         // Set page from client
-        const newPage = this.getPage(data.page, data.params)
+        if (this.currentPage = data.page) break;
+        this.currentPage = data.page
+        const newPage = this.getPage(this.currentPage, data.params)
         this.setState({ page: newPage })
         break;
     }

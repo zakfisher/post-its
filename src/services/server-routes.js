@@ -44,17 +44,20 @@ class ServerRoutes {
   // Add Page Routes
   pages() {
     let html = './components/html'
+
     let defaultProps = {
       env: process.env.NODE_ENV,
-      title: 'Zak Fisher',
+      title: 'ZF Post-its',
       page: 'home',
       keys: ['env', 'title', 'page']
     }
+
     let props = {}
 
     // Note Page
     this.router.get('/note/:id', (req, res) => {
       props =  _.extend({}, defaultProps)
+
       res.render(html, _.extend(props, {
         page: 'note',
         id: req.params.id,

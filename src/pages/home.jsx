@@ -1,11 +1,13 @@
 'use strict'
 
-import Sidebar from '../components/sidebar.jsx'
+import Nav from '../components/nav.jsx'
+import Desktop from '../components/desktop.jsx'
 
 const Home = (props) => {
   return (
     <div className='row'>
-      <Sidebar />
+      <Nav {...props} />
+      <Desktop />
     </div>
   )
 }

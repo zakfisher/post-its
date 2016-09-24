@@ -33,7 +33,7 @@ class HTML extends GLOBAL.React.Component {
 
   scripts() {
     let vendors = ['/vendors/react.js', '/vendors/react-dom.js', '/vendors/ReactRouter.js', '/index.js']
-    if (this.props.env !== 'development') {
+    if (this.props.env === 'production') {
       vendors = vendors.map((path) => {return path.replace('.js', '.min.js') })
     }
     return vendors.map((filepath, i) => {

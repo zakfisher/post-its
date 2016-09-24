@@ -86,12 +86,11 @@ gulp.task('build', [
   'scss',
   'jsx',
   'minify',
-], () => {
+],
+() => {
   setTimeout(() => {
     console.log('build complete')
-    if (!isDev) {
-      process.exit()
-    }
+    if (!isDev) process.exit()
   }, 15000)
 })
 

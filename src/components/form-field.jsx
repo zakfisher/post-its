@@ -25,10 +25,10 @@ class FormField extends GLOBAL.React.Component {
   }
 
   componentDidMount() {
-    this.props.store.listen(this.onFormAction.bind(this))
+    this.props.store.listen(this.update.bind(this))
   }
 
-  onFormAction(data) {
+  update(data) {
     switch (data.action) {
       case 'submit':
         this.validate()
