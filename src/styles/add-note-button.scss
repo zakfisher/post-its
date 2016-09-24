@@ -1,0 +1,15 @@
+.add-note-button {
+  @include size(rem(50));
+  @include transition(opacity 300ms ease);
+  cursor: pointer;
+  opacity: 0.3;
+  position: absolute;
+  background: white;
+  border-radius: rem(8);
+  right: rem(20);
+  bottom: rem(20);
+
+  &:hover {
+    opacity: 1;
+  }
+}

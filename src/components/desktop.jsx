@@ -1,19 +1,17 @@
 'use strict'
 
+import Reflux from 'reflux'
+import Notes from '../services/notes'
+
 import AddNoteButton from './add-note-button.jsx'
 import Note from './note.jsx'
 
 class Desktop extends GLOBAL.React.Component {
   constructor(props) {
     super(props)
-
+    this.mixins = Reflux.connect([Notes.Store], 'notes')
     this.state = {
-      notes: [
-        {
-          title: 'My First Note',
-          note: 'This is a note. You can add, edit, drag, and remove notes. The notes are cached in localStorage, so if you refresh they\'ll still be there!'
-        }
-      ]
+      notes: []
     }
   }
 
@@ -21,8 +19,21 @@ class Desktop extends GLOBAL.React.Component {
     return {}
   }
 
-  update() {
+  componentWillMount() {
+    Notes.Actions.getNotes()
+  }
 
+  componentDidMount() {
+    Notes.Store.listen(this.update.bind(this))
+  }
+
+  update(data) {
+    console.log(data)
+    switch (data.action) {
+      case 'get notes':
+        this.setState({ notes: data.notes })
+        break;
+    }
   }
 
   render() {
@@ -34,10 +45,6 @@ class Desktop extends GLOBAL.React.Component {
         })}
       </div>
     )
-  }
-
-  renderNotes() {
-
   }
 }
 

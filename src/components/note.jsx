@@ -23,7 +23,7 @@ const NoteFront = (props) => {
   return (
     <div className='note-front'>
       <NoteTitle {...props} />
-      <p>{props.note}</p>
+      <p className='note-text'>{props.note}</p>
     </div>
   )
 }
@@ -32,7 +32,7 @@ const NoteBack = (props) => {
   return (
     <div className='note-back'>
       <NoteTitle {...props} />
-      <p>{props.note}</p>
+      <p className='note-text'>The Back..</p>
     </div>
   )
 }
@@ -41,7 +41,7 @@ class Note extends GLOBAL.React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      classes: ['note']//, 'edit']
+      classes: ['note']
     }
   }
 
@@ -53,18 +53,13 @@ class Note extends GLOBAL.React.Component {
   }
 
   click() {
-    console.log('click note', this.props)
-  }
-
-  getStyle() {
-    return {
-      margin: 'auto'
-    }
+    if (this.state.classes.indexOf('edit') > -1) this.setState({ classes: ['note'] })
+    else this.setState({ classes: ['note', 'edit'] })
   }
 
   render() {
     return (
-      <div className={this.state.classes.join(' ')} style={this.getStyle()} onClick={this.click.bind(this)}>
+      <div className={this.state.classes.join(' ')} onClick={this.click.bind(this)}>
         <NoteFront {...this.props} />
         <NoteBack {...this.props} />
       </div>

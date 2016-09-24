@@ -1,0 +1,26 @@
+$navHeight: rem(50);
+
+.nav {
+  background: black;
+  height: $navHeight;
+  width: 100%;
+  position: relative;
+  z-index: 0;
+
+  .nav-logo {
+    @include size($navHeight);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: $green;
+  }
+
+  h1 {
+    position: absolute;
+    height: 100%;
+    left: $navHeight + rem(10);
+    font-size: rem(18);
+    line-height: $navHeight;
+    color: white;
+  }
+}

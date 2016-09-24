@@ -28,7 +28,7 @@ else {
 
 const dist = './public/.dist' // dir for compiled js/css before minification
 
-const reloadDelay = 0
+const reloadDelay = 1000
 const minifyDelay = 3000
 
 const minifyJS = () => {

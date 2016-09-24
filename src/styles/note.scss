@@ -1,0 +1,118 @@
+$noteSize: rem(270);
+$noteTitleHeight: rem(36);
+$noteTransitionDuration: 600ms;
+$notePerspective: rem(800);
+
+.note {
+  @include transition(all);
+  @include transition-duration($noteTransitionDuration);
+  opacity: 0.8;
+  @include transform-style(preserve-3d);
+  @include size($noteSize);
+  -webkit-perspective: $notePerspective;
+  perspective: $notePerspective;
+  // @include transform(translate3d(rem(100), rem(200), 0));
+
+  .note-front, .note-back {
+    @include transition(all);
+    @include transition-duration($noteTransitionDuration);
+    @include transform-style(preserve-3d);
+    @include backface-visibility(hidden);
+    @include transform-origin(center center);
+    @include size(100%);
+    border-radius: rem(10);
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding-top: $noteTitleHeight;
+  }
+
+  .note-front {
+    @include transform(rotateY(0deg));
+  }
+
+  .note-back {
+    @include transform(rotateY(180deg));
+  }
+
+  &:hover:not(.edit) {
+    opacity: 1;
+  }
+
+  &.edit {
+    // @include transform(rotateY(180deg));
+    @include size(80vh);
+    opacity: 1;
+
+    .note-front {
+      @include transform(rotateY(-180deg));
+    }
+
+    .note-back {
+      @include transform(rotateY(0deg));
+    }
+  }
+}
+
+.note-title {
+  cursor: pointer;
+  height: $noteTitleHeight;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  h1 {
+    cursor: pointer;
+    font-size: rem(18);
+    font-family: 'Avenir Black';
+    line-height: $noteTitleHeight;
+    text-transform: uppercase;
+  }
+}
+
+.note-close {
+  @include size($noteTitleHeight);
+  @include transition(opacity 300ms);
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  opacity: 0.3;
+
+  .bar {
+    cursor: pointer;
+    height: rem(20);
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.note-front {
+  background: $yellow;
+
+  .note-title {
+    background: $orange;
+  }
+
+  .note-text {
+    // height: rem(200);
+    // width: rem(250);
+    // overflow: scroll;
+    // margin: auto;
+  }
+}
+
+.note-back {
+  background: $blue;
+
+  .note-title h1 {
+    display: none;
+  }
+}

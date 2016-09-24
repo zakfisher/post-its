@@ -1,0 +1,22 @@
+$desktopBgGradientLight: 54;
+$desktopBgGradientStop: 200%;
+
+.desktop {
+  background: rgba($desktopBgGradientLight,$desktopBgGradientLight,$desktopBgGradientLight,1);
+  background: -moz-radial-gradient(center, ellipse cover, rgba($desktopBgGradientLight,$desktopBgGradientLight,$desktopBgGradientLight,1) 0%, rgba(0,0,0,1) $desktopBgGradientStop);
+  background: -webkit-gradient(radial, center center, 0px, center center, $desktopBgGradientStop, color-stop(0%, rgba($desktopBgGradientLight,$desktopBgGradientLight,$desktopBgGradientLight,1)), color-stop($desktopBgGradientStop, rgba(0,0,0,1)));
+  background: -webkit-radial-gradient(center, ellipse cover, rgba($desktopBgGradientLight,$desktopBgGradientLight,$desktopBgGradientLight,1) 0%, rgba(0,0,0,1) $desktopBgGradientStop);
+  background: -o-radial-gradient(center, ellipse cover, rgba($desktopBgGradientLight,$desktopBgGradientLight,$desktopBgGradientLight,1) 0%, rgba(0,0,0,1) $desktopBgGradientStop);
+  background: -ms-radial-gradient(center, ellipse cover, rgba($desktopBgGradientLight,$desktopBgGradientLight,$desktopBgGradientLight,1) 0%, rgba(0,0,0,1) $desktopBgGradientStop);
+  background: radial-gradient(ellipse at center, rgba($desktopBgGradientLight,$desktopBgGradientLight,$desktopBgGradientLight,1) 0%, rgba(0,0,0,1) $desktopBgGradientStop);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#000000', GradientType=1 );
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 0;
+  margin-top: $navHeight;
+  border-bottom: rem(10) solid black;
+  z-index: 1;
+}
