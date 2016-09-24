@@ -1,7 +1,7 @@
 'use strict'
 
 import Reflux from 'reflux'
-import Router from '../services/client-routes'
+import ClientRoutes from '../services/client-routes'
 
 // Pages
 import Home from '../pages/home.jsx'
@@ -10,7 +10,11 @@ import Note from '../pages/note.jsx'
 class App extends GLOBAL.React.Component {
   constructor(props) {
     super(props)
-    this.mixins = Reflux.connect([Router.Store], 'router')
+    this.mixins = Reflux.connect([ClientRoutes.Store], 'router')
+    this.pages = {
+      'home': Home,
+      'note': Note,
+    }
 
     // Set default page (from server)
     const defaultPage = this.getPage(this.props.page, this.props)
@@ -26,16 +30,12 @@ class App extends GLOBAL.React.Component {
     All url changes on the client set new props from url params.
   */
   getPage(page, props) {
-    const pages = {
-      'home': Home,
-      'note': Note,
-    }
-    const Page = pages[page]
+    const Page = this.pages[page]
     return <Page {...props} />
   }
 
   componentDidMount() {
-    Router.Store.listen(this.update.bind(this))
+    ClientRoutes.Store.listen(this.update.bind(this))
   }
 
   update(data) {
