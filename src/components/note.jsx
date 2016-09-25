@@ -34,6 +34,7 @@ function Note() {
 
       // If new note, open in edit mode
       if (this.props.new) {
+        newState.id = 'new'
         newState.classes.push('edit')
       }
 
@@ -50,6 +51,8 @@ function Note() {
 
     enterEditMode() {
       Notes.Actions.editNote(this.state.id)
+      this.refs.title.value = this.state.title
+      this.refs.text.value = this.state.text
       this.setState({
         classes: ['note', 'edit']
       })
@@ -84,6 +87,7 @@ function Note() {
       })
     }
 
+    // @TODO: make drag work in FF, Safari, IE
     drag(e) {
       if (!this.dragging) return
       const { movementX, movementY } = e.nativeEvent
@@ -137,14 +141,12 @@ function Note() {
 
           <div className='back'>
             <div className='close-icon' onClick={this.exitEditMode.bind(this)} />
-            <input name='title' placeholder='Title' value={this.state.title} />
-            <textarea name='text' placeholder='Text' value={this.state.text} />
-            <div className='cancel-button' onClick={this.exitEditMode.bind(this)}>
-              Cancel
-            </div>
-            <div className='save-button' onClick={this.save.bind(this)}>
-              Save
-            </div>
+            <form>
+              <input ref='title' name='title' placeholder='Title' />
+              <textarea ref='text' name='text' placeholder='Text' />
+              <div className='cancel-button' onClick={this.exitEditMode.bind(this)}>Cancel</div>
+              <div className='save-button' onClick={this.save.bind(this)}>Save</div>
+            </form>
           </div>
 
         </div>

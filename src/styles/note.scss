@@ -73,6 +73,76 @@ $notePadding: rem(15);
   .back {
     @include transform(rotateY(180deg));
     background: $blue;
+    overflow: scroll;
+
+    .close-icon {
+      right: rem(5);
+      top: rem(5);
+    }
+  }
+
+  form {
+    position: absolute;
+    height: 100%;
+    width: 90%;
+    margin: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    padding-top: rem(50);
+
+    input, textarea {
+      resize: none;
+      border-radius: rem(10);
+      width: 100%;
+      font-size: rem(30);
+      line-height: rem(30);
+
+      @include placeholder {
+        color: $gray;
+        font-style: italic;
+      }
+    }
+
+    input {
+      height: rem(60);
+      margin-bottom: rem(30);
+      padding: 0 rem(15);
+    }
+
+    textarea {
+      height: calc(100% - 11.875rem);
+      padding: rem(15);
+      line-height: rem(38);
+    }
+
+    [class*="button"] {
+      border-radius: rem(6);
+      position: absolute;
+      height: rem(50);
+      color: white;
+      text-transform: uppercase;
+      font-size: rem(16);
+      display: flex;
+      align-items: center;
+      padding: 0 rem(20);
+      bottom: rem(20);
+      cursor: pointer;
+      @include transition(all 300ms);
+      &:hover {
+        background: black;
+      }
+    }
+
+    .cancel-button {
+      background: $red;
+      left: 0;
+    }
+
+    .save-button {
+      background: $green;
+      right: 0;
+    }
   }
 
   &:hover:not(.edit) {

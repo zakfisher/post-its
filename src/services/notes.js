@@ -91,8 +91,8 @@ Notes.Store = Reflux.createStore({
     this.data.notes = this.data.notes.filter((note) => {
       return note.id !== noteId
     })
-    Notes.Actions.getAll()
     this.setLocalStorage()
+    Notes.Actions.getAll()
   },
   onShowDesktop: function() {
     this.trigger({
