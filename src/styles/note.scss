@@ -25,7 +25,6 @@ $notePadding: rem(15);
   perspective: $notePerspective;
 
   .title {
-    cursor: pointer;
     height: $noteTitleHeight;
     width: 100%;
     position: absolute;
@@ -35,7 +34,6 @@ $notePadding: rem(15);
     padding: 0 rem(35) 0 $notePadding;
 
     h1 {
-      cursor: pointer;
       font-size: rem(18);
       line-height: $noteTitleHeight;
       text-transform: uppercase;
@@ -93,5 +91,9 @@ $notePadding: rem(15);
     .back {
       @include transform(rotateY(0deg));
     }
+  }
+
+  &.dragging {
+    @include transition(none);
   }
 }

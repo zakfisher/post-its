@@ -4,7 +4,7 @@
   position: absolute;
   cursor: pointer;
   opacity: 0.3;
-  &:hover {
+  &:hover, &.active {
     opacity: 1;
   }
 }

@@ -4,14 +4,14 @@ import Reflux from 'reflux'
 import _ from 'lodash'
 
 let Notes = {}
-const isClient = GLOBAL.hasOwnProperty('localStorage')
+const hasLocalStorage = GLOBAL.hasOwnProperty('localStorage')
 
 const DemoNote = {
   id: 'demo',
   title: 'My First Note',
   text: 'This is a note. You can add, edit, drag, and remove notes. The notes are cached in localStorage, so if you refresh they\'ll still be there!',
-  translateX: 0,
-  translateY: 0,
+  translateX: -100,
+  translateY: -100,
   translateZ: 0,
 }
 
@@ -31,29 +31,36 @@ Notes.Store = Reflux.createStore({
     notes: []
   },
   init: function() {
-    // Set notes from localStorage
-    if (isClient) {
-      let notesCache = localStorage.getItem('notes')
-      const notesCacheJSON = JSON.parse(notesCache)
+    // this.clearLocalStorage()
+    this.getLocalStorage()
+  },
+  clearLocalStorage: function() {
+    if (!hasLocalStorage) return
+    console.log('clear localStorage')
+    localStorage.removeItem('notes')
+  },
+  getLocalStorage: function() {
+    if (!hasLocalStorage) return
+    let notesCache = localStorage.getItem('notes')
+    const notesCacheJSON = JSON.parse(notesCache)
 
-      // Clear localStorage
-      console.log('clear localStorage')
-      localStorage.removeItem('notes')
-
-      // If localStorage exists, use it and escape
-      if (notesCache && notesCache.length) {
-        console.log('set notes from localStorage ::', notesCacheJSON)
-        this.data.notes = notesCacheJSON
-        return
-      }
-
-      // If no localStorage yet, use demo note
-      else {
-        const notes = this.data.notes = [DemoNote]
-        localStorage.setItem('notes', JSON.stringify(notes))
-        console.log('set default notes ::', localStorage.getItem('notes'))
-      }
+    // If localStorage exists, use it and escape
+    if (notesCache && notesCache.length) {
+      console.log('set notes from localStorage ::', notesCacheJSON)
+      this.data.notes = notesCacheJSON
+      return
     }
+
+    // If no localStorage yet, use demo note
+    else {
+      this.data.notes = [DemoNote]
+      this.setLocalStorage()
+    }
+  },
+  setLocalStorage: function() {
+    if (!hasLocalStorage) return
+    localStorage.setItem('notes', JSON.stringify(this.data.notes))
+    console.log('set localStorage#notes\n', localStorage.getItem('notes'))
   },
   onGetAll: function() {
     this.trigger({
@@ -66,27 +73,27 @@ Notes.Store = Reflux.createStore({
       action: 'add note'
     })
   },
-  onEditNote: function(noteId) {
+  onEditNote: function() {
     this.trigger({
-      action: 'edit note',
-      id: noteId
+      action: 'edit note'
     })
   },
-  onSaveNote: function(note) {
-    console.log('on save note', note)
-    // this.trigger({
-    //   action: 'updated note'
-    // })
-    // update localStorage
+  onSaveNote: function(newNote) {
+    delete newNote.classes
+    delete newNote.style
+    this.data.notes = this.data.notes.map((note) => {
+      if (note.id === newNote.id) return newNote
+      else return note
+    })
+    this.setLocalStorage()
   },
   onDeleteNote: function(noteId) {
     console.log('delete note', noteId)
     this.data.notes = this.data.notes.filter((note) => {
       return note.id !== noteId
     })
-    console.log('notes', this.data.notes)
     Notes.Actions.getAll()
-    // update localStorage
+    this.setLocalStorage()
   },
   onShowDesktop: function() {
     this.trigger({

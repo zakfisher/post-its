@@ -12,7 +12,6 @@ function Note() {
   return class Note extends GLOBAL.React.Component {
     constructor(props) {
       super(props)
-
       this.state = {
         id,
         classes: [],
@@ -31,16 +30,15 @@ function Note() {
 
     componentDidMount() {
       let newState = _.extend({}, this.props)
-      const { translateX, translateY, translateZ } = this.props
       newState.classes = ['note']
-      newState.style = {
-        transform: `translate3d(${translateX}px, ${translateY}px, ${translateZ}px)`
-      }
+
+      // If new note, open in edit mode
       if (this.props.new) {
-        newState.id = 'new'
         newState.classes.push('edit')
       }
-      console.log('set note state', newState)
+
+      const { translateX, translateY, translateZ } = this.props
+      this.setPosition(translateX, translateY, translateZ)
       this.setState(newState)
     }
 
@@ -49,19 +47,14 @@ function Note() {
     }
 
     enterEditMode() {
-      console.log('enter edit mode', this.state.id)
       Notes.Actions.editNote(this.state.id)
-
       this.setState({
-        classes: ['note', 'edit'],
-        style: {
-          transform: 'translate3d(0,0,0)'
-        }
+        classes: ['note', 'edit']
       })
+      this.setPosition(0, 0, 0)
     }
 
     exitEditMode() {
-      console.log('exit edit mode', this.state.id)
       Notes.Actions.showDesktop()
 
       // Cancel note if new
@@ -71,34 +64,65 @@ function Note() {
 
       // Close note if done editing
       else {
+        const { translateX, translateY, translateZ } = this.state
+        this.setPosition(translateX, translateY, translateZ)
         this.setState({
-          classes: ['note'],
-          style: {
-            transform: `translate3d(${this.state.translateX}px, ${this.state.translateY}px, ${this.state.translateZ}px)`
-          }
+          classes: ['note']
         })
       }
     }
 
+    setPosition(x, y, z) {
+      this.currentX = x
+      this.currentY = y
+      this.setState({
+        style: {
+          transform: `translate3d(${x}px, ${y}px, ${z}px)`
+        }
+      })
+    }
+
+    drag(e) {
+      if (!this.dragging) return
+      const { movementX, movementY } = e.nativeEvent
+      this.currentX += movementX
+      this.currentY += movementY
+      this.setPosition(this.currentX, this.currentY, 0)
+    }
+
     startDrag() {
-      console.log('start drag', this.state.id)
+      this.dragging = true
+      const { translateX, translateY, translateZ } = this.state
+      this.setPosition(translateX, translateY, translateZ)
+      this.setState({
+        classes: ['note', 'dragging']
+      })
     }
 
     stopDrag() {
-      console.log('stop drag', this.state.id)
+      if (!this.dragging) return
+      this.dragging = false
+      this.setState({
+        classes: ['note'],
+        translateX: this.currentX,
+        translateY: this.currentY
+      }, this.save)
     }
 
     save() {
-      console.log('save note', this.state.id)
-      // Notes.Actions.updateNote()
+      console.log('save time', this.state)
+      Notes.Actions.saveNote(this.state)
     }
 
     render() {
-      // console.log('render note', this.props)
       return (
         <div className={this.state.classes.join(' ')} style={this.state.style}>
 
-          <div className='front'>
+          <div className='front'
+            onMouseMove={this.drag.bind(this)}
+            onMouseDown={this.startDrag.bind(this)}
+            onMouseUp={this.stopDrag.bind(this)}
+            onMouseLeave={this.stopDrag.bind(this)}>
             <div className='title'>
               <h1>{this.state.title}</h1>
             </div>
@@ -107,7 +131,7 @@ function Note() {
             </div>
             <div className='close-icon' onClick={this.delete.bind(this)} />
             <div className='edit-icon' onClick={this.enterEditMode.bind(this)} />
-            <div className='drag-icon' onMouseDown={this.startDrag.bind(this)} onMouseUp={this.stopDrag.bind(this)} />
+            <div className={`drag-icon${this.dragging ? ' active' : ''}`} />
           </div>
 
           <div className='back'>

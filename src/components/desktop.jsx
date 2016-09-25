@@ -50,7 +50,6 @@ class Desktop extends GLOBAL.React.Component {
         break
 
       case 'cancel new note':
-        console.log('cancel new note')
         notes = this.state.notes.splice(0, (this.state.notes.length - 1))
         this.setState({ notes })
         break
