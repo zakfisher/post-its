@@ -88,7 +88,6 @@ Notes.Store = Reflux.createStore({
     this.setLocalStorage()
   },
   onDeleteNote: function(noteId) {
-    console.log('delete note', noteId)
     this.data.notes = this.data.notes.filter((note) => {
       return note.id !== noteId
     })

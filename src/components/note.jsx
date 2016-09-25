@@ -25,7 +25,7 @@ function Note() {
     }
 
     static get defaultProps() {
-      return _.extend({}, Notes.Model, { id })
+      return { id }
     }
 
     componentDidMount() {
@@ -37,8 +37,10 @@ function Note() {
         newState.classes.push('edit')
       }
 
+      // Set initial position
       const { translateX, translateY, translateZ } = this.props
       this.setPosition(translateX, translateY, translateZ)
+
       this.setState(newState)
     }
 
@@ -110,7 +112,6 @@ function Note() {
     }
 
     save() {
-      console.log('save time', this.state)
       Notes.Actions.saveNote(this.state)
     }
 
