@@ -1,17 +1,13 @@
 'use strict'
 
-/*
-  This is a dictionary for our Notes in localStorage.
-*/
-
 import Reflux from 'reflux'
 import _ from 'lodash'
 
 let Notes = {}
 const isClient = GLOBAL.hasOwnProperty('localStorage')
 
-Notes.Model = {
-  id: 'new',
+const DemoNote = {
+  id: 'demo',
   title: 'My First Note',
   text: 'This is a note. You can add, edit, drag, and remove notes. The notes are cached in localStorage, so if you refresh they\'ll still be there!',
   translateX: 0,
@@ -22,8 +18,11 @@ Notes.Model = {
 Notes.Actions = Reflux.createActions([
   'getAll',
   'addNote',
-  'updateNote',
+  'editNote',
+  'saveNote',
   'deleteNote',
+  'showDesktop',
+  'cancelNewNote',
 ])
 
 Notes.Store = Reflux.createStore({
@@ -50,7 +49,7 @@ Notes.Store = Reflux.createStore({
 
       // If no localStorage yet, use demo note
       else {
-        const notes = this.data.notes = [Notes.Model]
+        const notes = this.data.notes = [DemoNote]
         localStorage.setItem('notes', JSON.stringify(notes))
         console.log('set default notes ::', localStorage.getItem('notes'))
       }
@@ -58,28 +57,47 @@ Notes.Store = Reflux.createStore({
   },
   onGetAll: function() {
     this.trigger({
-      action: 'get all notes',
+      action: 'get notes',
       notes: this.data.notes
     })
   },
-  onAddNote: function(note) {
-    console.log('add note to data..')
-    // this.data.notes.push[note]
+  onAddNote: function() {
     this.trigger({
-      action: 'add note',
-      note
+      action: 'add note'
     })
   },
-  onUpdateNote: function() {
+  onEditNote: function(noteId) {
     this.trigger({
-      action: 'updated note'
+      action: 'edit note',
+      id: noteId
     })
   },
-  onDeleteNote: function() {
+  onSaveNote: function(note) {
+    console.log('on save note', note)
+    // this.trigger({
+    //   action: 'updated note'
+    // })
+    // update localStorage
+  },
+  onDeleteNote: function(noteId) {
+    console.log('delete note', noteId)
+    this.data.notes = this.data.notes.filter((note) => {
+      return note.id !== noteId
+    })
+    console.log('notes', this.data.notes)
+    Notes.Actions.getAll()
+    // update localStorage
+  },
+  onShowDesktop: function() {
     this.trigger({
-      action: 'deleted note'
+      action: 'show desktop'
     })
   },
+  onCancelNewNote: function() {
+    this.trigger({
+      action: 'cancel new note'
+    })
+  }
 })
 
 export default Notes

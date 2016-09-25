@@ -9,7 +9,6 @@ const lodash = require('lodash')
 // Set global vars on the server that mirror client globals
 GLOBAL.React = require('react')
 GLOBAL.ReactDOM = require('react-dom')
-GLOBAL.ReactRouter = require('react-router')
 
 // Include server-side routes
 const ServerRoutes = require('./src/services/server-routes')

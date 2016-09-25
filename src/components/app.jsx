@@ -2,8 +2,8 @@
 
 import Reflux from 'reflux'
 
-// Pages
-import Home from '../pages/home.jsx'
+import Nav from '../components/nav.jsx'
+import Desktop from '../components/desktop.jsx'
 
 class App extends GLOBAL.React.Component {
   constructor(props) {
@@ -15,7 +15,12 @@ class App extends GLOBAL.React.Component {
   }
 
   render() {
-    return <div id='app'><Home {...this.props} /></div>
+    return (
+      <div id='app'>
+        <Nav {...this.props} />
+        <Desktop {...this.props} />
+      </div>
+    )
   }
 }
 

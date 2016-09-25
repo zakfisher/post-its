@@ -17,7 +17,6 @@ $notePadding: rem(15);
 }
 
 .note {
-  // @include transform(translate3d(rem(-500), rem(-200), 0));
   @include NoteTransform
   @include size($noteSize);
   max-width: 95%;
@@ -55,6 +54,7 @@ $notePadding: rem(15);
   .front {
     @include transform(rotateY(0deg));
     background: $yellow;
+    z-index: 1;
 
     .title {
       background: $orange;
@@ -82,7 +82,7 @@ $notePadding: rem(15);
   }
 
   &.edit {
-    @include transform(translate3d(0, 0, 0) !important);
+    // @include transform(translate3d(0, 0, 0) !important);
     @include size(80vh);
     opacity: 1;
 

@@ -6,7 +6,7 @@ import Reflux from 'reflux'
 import Notes from '../services/notes'
 
 import AddNoteButton from './add-note-button.jsx'
-import Note from './note/index.jsx'
+import Note from './note.jsx'
 
 class Desktop extends GLOBAL.React.Component {
   constructor(props) {
@@ -23,15 +23,36 @@ class Desktop extends GLOBAL.React.Component {
     return {}
   }
 
-  componentDidMount() {
+   componentDidMount() {
     Notes.Store.listen(this.update.bind(this))
     Notes.Actions.getAll()
   }
 
   update(data) {
+    let NoteComponent = null
+    let notes = []
+
     switch (data.action) {
-      case 'get all notes':
-        this.setState({ notes: data.notes })
+
+      case 'get notes':
+        this.setState({
+          notes: data.notes.map((note, i) => {
+            NoteComponent = new Note()
+            return <NoteComponent {...note} key={i} />
+          })
+        })
+        break
+
+      case 'add note':
+        NoteComponent = new Note()
+        notes = this.state.notes.concat(<NoteComponent key={this.state.notes.length} new={true} />)
+        this.setState({ notes })
+        break
+
+      case 'cancel new note':
+        console.log('cancel new note')
+        notes = this.state.notes.splice(0, (this.state.notes.length - 1))
+        this.setState({ notes })
         break
     }
   }
@@ -40,16 +61,9 @@ class Desktop extends GLOBAL.React.Component {
     return (
       <div className='desktop'>
         <AddNoteButton />
-        {this.renderNotes()}
+        {this.state.notes}
       </div>
     )
-  }
-
-  renderNotes() {
-    return this.state.notes.map((note, i) => {
-      const NoteComponent = new Note()
-      return <NoteComponent {...note} key={i} />
-    })
   }
 }
 

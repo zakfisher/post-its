@@ -179,7 +179,7 @@ gulp.task('dev-server', () => {
 })
 
 gulp.task('watch', () => {
-  gulp.watch(['./src/*.jsx', './src/**/*.jsx', './src/**/*/js'], ['jsx'])
+  gulp.watch(['./src/*.jsx', './src/**/*.jsx', './src/**/*.js'], ['jsx'])
   gulp.watch(['./src/index.scss', './src/styles/*.scss'], ['scss'])
   gulp.watch([`${dist}/index.js`], ['minify-js'])
   gulp.watch([`${dist}/index.css`], ['minify-css'])

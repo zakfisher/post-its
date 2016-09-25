@@ -1,24 +1,17 @@
 'use strict'
 
-const { Link } = GLOBAL.ReactRouter
-
 import Reflux from 'reflux'
 
-import PlusIcon from './icons/plus.jsx'
-
 import Notes from '../services/notes'
-import ClientRoutes from '../services/client-routes'
 
 class AddNoteButton extends GLOBAL.React.Component {
   constructor(props) {
     super(props)
 
-    this.mixins = Reflux.connect([ClientRoutes.Store], 'router')
+    this.mixins = Reflux.connect([Notes.Store], 'notes')
 
     this.state = {
-      style: {
-        display: 'none'
-      }
+      style: {}
     }
   }
 
@@ -27,36 +20,30 @@ class AddNoteButton extends GLOBAL.React.Component {
   }
 
   componentDidMount() {
-    ClientRoutes.Store.listen(this.update.bind(this))
+    Notes.Store.listen(this.update.bind(this))
   }
 
   update(data) {
     switch(data.action) {
-      case 'go to page':
-        console.log('go to page', data.page)
-        switch (data.page) {
+      case 'add note':
+      case 'edit note':
+        this.setState({ style: { display: 'none' } })
+        break
 
-          case 'add note':
-            Notes.Actions.addNote()
-
-          case 'edit note':
-            this.setState.bind(this)({ style: { display: 'none' } })
-            break
-
-          case 'home':
-            this.setState.bind(this)({ style: { display: 'block' } })
-            break
-
-        }
+      case 'show desktop':
+        this.setState({ style: { display: 'block' } })
         break
     }
   }
 
   render() {
     return (
-      <Link to='/note/add' className='add-note-button' style={this.state.style}>
-        <PlusIcon />
-      </Link>
+      <div className='add-note-button' style={this.state.style} onClick={Notes.Actions.addNote}>
+        <div className='plus-icon'>
+          <div className='bar v'></div>
+          <div className='bar h'></div>
+        </div>
+      </div>
     )
   }
 }
