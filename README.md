@@ -1,4 +1,4 @@
-![](http://superfantastic.s3.amazonaws.com/post-its/landing-page.png)
+![](http://superfantastic.s3.amazonaws.com/post-its/landing.png)
 
 Zak Fisher's Post-it App
 =====
@@ -16,12 +16,6 @@ Download `gulp` with `npm install -g gulp`.
 
 Download dependencies with `npm i`.
 
-## Isomorphic JavaScript
-
-React runs on the client and the server, allowing our Components to be rendered on both...
-
-HTML Component (server) & index.jsx (client) wrap the App Component
-
 ## Server
 
 On production, Heroku runs `node server.js`, which is our [server entry point](https://github.com/zakfisher/post-its/blob/master/index.js).
@@ -36,8 +30,6 @@ In dev, we run `gulp`, which
 
 ## Client
 
-The page markup is served from [`src/index.jade`](https://github.com/zakfisher/post-its/blob/master/src/index.jade) (so we can pass server data directly into the dom).
-
 The React app's entry point is at [`src/index.jsx`](https://github.com/zakfisher/post-its/blob/master/src/index.jsx).
 
 One CSS file is compiled from [`src/index.scss`](https://github.com/zakfisher/post-its/blob/master/src/index.scss).
@@ -46,18 +38,13 @@ One CSS file is compiled from [`src/index.scss`](https://github.com/zakfisher/po
 
 There are a few noteworthy features, including:
 * [A Gulp workflow with LiveReload](https://github.com/zakfisher/post-its/blob/master/gulpfile.js)
-* [Twitter API integration with OAuth](https://github.com/zakfisher/post-its/blob/master/src/services/twitter.js)
-  * You can check [localhost:4200/tweet](http://localhost:4200/tweet) to see the latest tweet (assuming you're running the app locally)
-* [Email API integration with SendGrid](https://github.com/zakfisher/post-its/blob/master/src/services/email.js)
-* [React Form validation using Reflux](https://github.com/zakfisher/post-its/blob/master/src/components/form.jsx)
-* [A Custom SCSS Grid Framework](https://github.com/zakfisher/post-its/blob/master/src/components/grid.scss)
 
 ## Future Development
 
 Some features that still need to be implemented include:
-* A modal with project information
+* Server & Client-side Routing
 * Additional content & pages
-* Unit testing (w/ Jest)
+* Unit testing
 * SEO optimization
 * Analytics
 * Better Documentation
