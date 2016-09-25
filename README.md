@@ -25,8 +25,8 @@ In dev, we run `gulp`, which
 * restarts the server whenever there's a file change
 * watches & compiles `src/**.jsx` files into `public/index.js` using browserify (reactify)
 * watches & compiles `src/**.scss` files into `public/index.scss`
+* minifies JS & CSS
 * uses livereload to refresh the browser automatically
-* minifies..
 
 ## Client
 
@@ -38,6 +38,8 @@ One CSS file is compiled from [`src/index.scss`](https://github.com/zakfisher/po
 
 There are a few noteworthy features, including:
 * [A Gulp workflow with LiveReload](https://github.com/zakfisher/post-its/blob/master/gulpfile.js)
+* [A Reflux data store using localStorage](https://github.com/zakfisher/post-its/blob/master/src/services/notes.js)
+* [An HTML React Component (used for server-side JSX rendering)](https://github.com/zakfisher/post-its/blob/master/src/components/html.jsx)
 
 ## Future Development
 
