@@ -52,7 +52,7 @@ Notes.Store = Reflux.createStore({
 
     // If localStorage exists, use it and escape
     if (notesCache && notesCache.length) {
-      console.log('set notes from localStorage ::', notesCacheJSON)
+      console.log('set notes from localStorage', notesCacheJSON)
       this.data.notes = notesCacheJSON
       return
     }
@@ -66,7 +66,7 @@ Notes.Store = Reflux.createStore({
   setLocalStorage: function() {
     if (!hasLocalStorage) return
     localStorage.setItem('notes', JSON.stringify(this.data.notes))
-    console.log('set localStorage#notes\n', localStorage.getItem('notes'))
+    console.log('set localStorage\n', localStorage.getItem('notes'))
   },
   onGetAll: function() {
     this.trigger({

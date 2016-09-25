@@ -5,7 +5,7 @@ $notePerspective: rem(800);
 $notePadding: rem(15);
 
 @mixin NoteTransform() {
-  @include transition(all $noteTransitionDuration, opacity 300ms);
+  @include transition(all $noteTransitionDuration, opacity 0ms, z-index 0ms);
   @include transform-style(preserve-3d);
   @include transform-origin(center center);
   position: absolute;
@@ -57,6 +57,9 @@ $notePadding: rem(15);
     @include transform(rotateY(0deg));
     background: $yellow;
     z-index: 1;
+    [class*='icon'] {
+      display: none;
+    }
 
     .title {
       background: $orange;
@@ -155,8 +158,13 @@ $notePadding: rem(15);
     z-index: 2;
   }
 
+  &:hover {
+    .front [class*='icon'] {
+      display: block;
+    }
+  }
+
   &.edit {
-    // @include transform(translate3d(0, 0, 0) !important);
     @include size(80vh);
     opacity: 1;
     z-index: 10;
