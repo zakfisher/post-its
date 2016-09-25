@@ -7,7 +7,9 @@ class PlusIcon extends GLOBAL.React.Component {
   }
 
   static get defaultProps() {
-    return {}
+    return {
+      classes: ''
+    }
   }
 
   render() {

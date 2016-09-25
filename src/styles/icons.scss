@@ -1,0 +1,70 @@
+@mixin Icon() {
+  @include size(rem(36));
+  @include transition(opacity 300ms);
+  position: absolute;
+  cursor: pointer;
+  opacity: 0.3;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+$iconMargin: rem(5);
+
+.plus-icon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+
+  .bar {
+    @include transform-origin(center center);
+    cursor: pointer;
+    height: rem(24);
+    width: rem(5);
+    background: black;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+    &.h {
+      @include transform(rotate(90deg));
+    }
+  }
+
+  &.x-rotate {
+    .bar.h {
+      @include transform(rotate(45deg));
+    }
+    .bar.v {
+      @include transform(rotate(135deg));
+    }
+  }
+}
+
+.close-icon {
+  @include Icon
+  right: $iconMargin;
+  top: 0;
+  z-index: 1;
+  background: url('/images/close-icon.png');
+}
+
+.drag-icon {
+  @include Icon
+  bottom: $iconMargin;
+  right: $iconMargin;
+  background: url('/images/drag-icon.png');
+}
+
+.edit-icon {
+  @include Icon
+  bottom: $iconMargin;
+  left: $iconMargin;
+  background: url('/images/edit-icon.png');
+}

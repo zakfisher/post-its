@@ -12,13 +12,13 @@ $navHeight: rem(50);
     position: absolute;
     left: 0;
     top: 0;
-    background: $green;
+    background: url('/images/bug.png');
   }
 
   h1 {
     position: absolute;
     height: 100%;
-    left: $navHeight + rem(10);
+    left: $navHeight;
     font-size: rem(18);
     line-height: $navHeight;
     color: white;

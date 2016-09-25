@@ -11,7 +11,8 @@ let ClientRoutes = {}
 
 ClientRoutes.routes = {
   '/': 'home',
-  '/note/:id': 'note',
+  '/note/add': 'add note',
+  '/note/:id': 'edit note',
   '*': 'home'
 }
 

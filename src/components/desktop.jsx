@@ -1,15 +1,19 @@
 'use strict'
 
+import _ from 'lodash'
 import Reflux from 'reflux'
+
 import Notes from '../services/notes'
 
 import AddNoteButton from './add-note-button.jsx'
-import Note from './note.jsx'
+import Note from './note/index.jsx'
 
 class Desktop extends GLOBAL.React.Component {
   constructor(props) {
     super(props)
+
     this.mixins = Reflux.connect([Notes.Store], 'notes')
+
     this.state = {
       notes: []
     }
@@ -19,20 +23,16 @@ class Desktop extends GLOBAL.React.Component {
     return {}
   }
 
-  componentWillMount() {
-    Notes.Actions.getNotes()
-  }
-
   componentDidMount() {
     Notes.Store.listen(this.update.bind(this))
+    Notes.Actions.getAll()
   }
 
   update(data) {
-    console.log(data)
     switch (data.action) {
-      case 'get notes':
+      case 'get all notes':
         this.setState({ notes: data.notes })
-        break;
+        break
     }
   }
 
@@ -40,11 +40,16 @@ class Desktop extends GLOBAL.React.Component {
     return (
       <div className='desktop'>
         <AddNoteButton />
-        {this.state.notes.map((note, i) => {
-          return <Note {...note} key={i} />
-        })}
+        {this.renderNotes()}
       </div>
     )
+  }
+
+  renderNotes() {
+    return this.state.notes.map((note, i) => {
+      const NoteComponent = new Note()
+      return <NoteComponent {...note} key={i} />
+    })
   }
 }
 

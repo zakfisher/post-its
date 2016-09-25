@@ -1,9 +1,9 @@
 'use strict'
 
+const { Link } = GLOBAL.ReactRouter
+
 const NavLogo = (props) => {
-  return (
-    <div className='nav-logo' />
-  )
+  return <Link className='nav-logo' to='/' />
 }
 
 class Nav extends GLOBAL.React.Component {

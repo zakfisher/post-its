@@ -55,15 +55,15 @@ class ServerRoutes {
     let props = {}
 
     // Note Page
-    this.router.get('/note/:id', (req, res) => {
-      props =  _.extend({}, defaultProps)
+    // this.router.get('/note/:id', (req, res) => {
+    //   props =  _.extend({}, defaultProps)
 
-      res.render(html, _.extend(props, {
-        page: 'note',
-        id: req.params.id,
-        keys: props.keys.concat(['id'])
-      }))
-    })
+    //   res.render(html, _.extend(props, {
+    //     page: 'note',
+    //     id: req.params.id,
+    //     keys: props.keys.concat(['id'])
+    //   }))
+    // })
 
     // Home Page
     this.router.get('*', (req, res) => {

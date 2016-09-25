@@ -27,20 +27,15 @@ html, body {
 #app, #app > div {
   height: 100%;
   width: 100%;
-  position: relative;
-  @include breakpoint(tab) {
-    position: fixed;
-  }
+  position: fixed;
 }
 
 #app > div {
-  // display: flex;
-  // flex-wrap: wrap;
   overflow: hidden;
 }
 
 @import 'styles/nav';
 @import 'styles/desktop';
+@import 'styles/icons';
 @import 'styles/add-note-button';
-@import 'styles/plus-icon';
 @import 'styles/note';
