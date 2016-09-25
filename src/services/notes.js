@@ -8,14 +8,16 @@ const hasLocalStorage = GLOBAL.hasOwnProperty('localStorage')
 
 const DemoNote = {
   id: 'demo',
+  demo: true,
   title: 'My First Note',
-  text: 'This is a note. You can add, edit, drag, and remove notes. The notes are cached in localStorage, so if you refresh they\'ll still be there!',
-  translateX: -100,
-  translateY: -100,
+  text: 'This is a note.\n\nYou can add, edit, drag, and remove notes.\n\nThe notes are cached in localStorage, so if you refresh they\'ll still be there!',
+  translateX: 0,
+  translateY: 0,
   translateZ: 0,
 }
 
 Notes.Actions = Reflux.createActions([
+  'reset',
   'getAll',
   'addNote',
   'editNote',
@@ -31,8 +33,12 @@ Notes.Store = Reflux.createStore({
     notes: []
   },
   init: function() {
-    // this.clearLocalStorage()
     this.getLocalStorage()
+  },
+  onReset: function() {
+    this.clearLocalStorage()
+    this.getLocalStorage()
+    Notes.Actions.getAll()
   },
   clearLocalStorage: function() {
     if (!hasLocalStorage) return
@@ -81,10 +87,23 @@ Notes.Store = Reflux.createStore({
   onSaveNote: function(newNote) {
     delete newNote.classes
     delete newNote.style
-    this.data.notes = this.data.notes.map((note) => {
-      if (note.id === newNote.id) return newNote
-      else return note
+    delete newNote.isNew
+
+    let action = 'add'
+    let existingNoteIndex = -1
+    this.data.notes.map((note, i) => {
+      if (note.id === newNote.id) {
+        action = 'edit'
+        existingNoteIndex = i
+      }
     })
+
+    // Save new note
+    if (action === 'add') this.data.notes.push(newNote)
+
+    // Update existing note
+    if (action === 'edit') this.data.notes[existingNoteIndex] = newNote
+
     this.setLocalStorage()
   },
   onDeleteNote: function(noteId) {

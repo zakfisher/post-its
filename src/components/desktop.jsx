@@ -15,6 +15,7 @@ class Desktop extends GLOBAL.React.Component {
     this.mixins = Reflux.connect([Notes.Store], 'notes')
 
     this.state = {
+      showOverlay: false,
       notes: []
     }
   }
@@ -45,8 +46,14 @@ class Desktop extends GLOBAL.React.Component {
 
       case 'add note':
         NoteComponent = new Note()
-        notes = this.state.notes.concat(<NoteComponent key={this.state.notes.length} new={true} />)
+        notes = this.state.notes.concat(<NoteComponent key={this.state.notes.length} isNew={true} />)
         this.setState({ notes })
+      case 'edit note':
+        this.setState({ showOverlay: true })
+        break
+
+      case 'show desktop':
+        this.setState({ showOverlay: false })
         break
 
       case 'cancel new note':
@@ -61,6 +68,8 @@ class Desktop extends GLOBAL.React.Component {
       <div className='desktop'>
         <AddNoteButton />
         {this.state.notes}
+        <div className={`overlay${this.state.showOverlay ? ' show' : ''}`} />
+        <p className='reset' onClick={Notes.Actions.reset}>Reset</p>
       </div>
     )
   }
