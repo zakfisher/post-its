@@ -20,7 +20,6 @@ function Note() {
         text: '',
         translateX: 0,
         translateY: 0,
-        translateZ: 0,
       }
     }
 
@@ -31,16 +30,18 @@ function Note() {
     componentDidMount() {
       let newState = _.extend({}, this.props)
       newState.classes = ['note']
+      let translateZ = 0
 
       // If new note, open in edit mode
       if (this.props.isNew) {
         newState.id = 'new'
         newState.classes.push('edit')
+        translateZ = 500
       }
 
       // Set initial position
       const { translateX, translateY } = this.props
-      this.setPosition(translateX, translateY)
+      this.setPosition(translateX, translateY, translateZ)
 
       this.setState(newState)
     }
@@ -53,10 +54,12 @@ function Note() {
       Notes.Actions.editNote(this.state.id)
       this.refs.title.value = this.state.title
       this.refs.text.value = this.state.text
+      requestAnimationFrame(() => {
+        this.setPosition(0, 0, 500)
+      })
       this.setState({
         classes: ['note', 'edit']
       })
-      this.setPosition(0, 0)
     }
 
     exitEditMode() {
@@ -70,19 +73,21 @@ function Note() {
       // Close note if done editing
       else {
         const { translateX, translateY } = this.state
-        this.setPosition(translateX, translateY)
+        requestAnimationFrame(() => {
+          this.setPosition(translateX, translateY)
+        })
         this.setState({
           classes: ['note']
         })
       }
     }
 
-    setPosition(x, y) {
+    setPosition(x = 0, y = 0, z = 0) {
       this.currentX = x
       this.currentY = y
       this.setState({
         style: {
-          transform: `translate3d(${x}px, ${y}px, 500px)`
+          transform: `translate3d(${x}px, ${y}px, ${z}px)`
         }
       })
     }

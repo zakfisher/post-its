@@ -5,7 +5,7 @@
 
 * {
   @include appearance(none);
-  @include backface-visibility(visible);
+  @include backface-visibility(hidden);
   font-family: 'Avenir Book', sans-serif;
   text-decoration: none;
   color: black;

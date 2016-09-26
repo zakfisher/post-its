@@ -21,10 +21,10 @@ $notePadding: rem(15);
   @include size($noteSize);
   max-width: 95%;
   opacity: 0.85;
-  -webkit-perspective: $notePerspective;
-  perspective: $notePerspective;
   z-index: 0;
   top: rem(-25);
+  -webkit-perspective: $notePerspective;
+  perspective: $notePerspective;
 
   .title {
     height: $noteTitleHeight;
@@ -115,6 +115,7 @@ $notePadding: rem(15);
 
     input {
       height: rem(60);
+      line-height: rem(60);
       margin-bottom: rem(30);
       padding: 0 rem(15);
     }
