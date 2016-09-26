@@ -24,6 +24,7 @@ $notePadding: rem(15);
   -webkit-perspective: $notePerspective;
   perspective: $notePerspective;
   z-index: 0;
+  top: rem(-25);
 
   .title {
     height: $noteTitleHeight;
@@ -58,7 +59,7 @@ $notePadding: rem(15);
     background: $yellow;
     z-index: 1;
     [class*='icon'] {
-      display: none;
+      opacity: 0;
     }
 
     .title {
@@ -160,7 +161,7 @@ $notePadding: rem(15);
 
   &:hover {
     .front [class*='icon'] {
-      display: block;
+      opacity: 0.3;
     }
   }
 
@@ -168,7 +169,6 @@ $notePadding: rem(15);
     @include size(80vh);
     opacity: 1;
     z-index: 10;
-    top: rem(-25);
 
     .front {
       @include transform(rotateY(-180deg));

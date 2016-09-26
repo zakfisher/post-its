@@ -39,8 +39,8 @@ function Note() {
       }
 
       // Set initial position
-      const { translateX, translateY, translateZ } = this.props
-      this.setPosition(translateX, translateY, translateZ)
+      const { translateX, translateY } = this.props
+      this.setPosition(translateX, translateY)
 
       this.setState(newState)
     }
@@ -56,7 +56,7 @@ function Note() {
       this.setState({
         classes: ['note', 'edit']
       })
-      this.setPosition(0, 0, 0)
+      this.setPosition(0, 0)
     }
 
     exitEditMode() {
@@ -69,39 +69,71 @@ function Note() {
 
       // Close note if done editing
       else {
-        const { translateX, translateY, translateZ } = this.state
-        this.setPosition(translateX, translateY, translateZ)
+        const { translateX, translateY } = this.state
+        this.setPosition(translateX, translateY)
         this.setState({
           classes: ['note']
         })
       }
     }
 
-    setPosition(x, y, z) {
+    setPosition(x, y) {
       this.currentX = x
       this.currentY = y
       this.setState({
         style: {
-          transform: `translate3d(${x}px, ${y}px, ${z}px)`
+          transform: `translate3d(${x}px, ${y}px, 500px)`
         }
       })
     }
 
-    // @TODO: make drag work in FF, Safari, IE
     drag(e) {
       if (!this.dragging) return
       this.dragged = true
-      const { movementX, movementY } = e.nativeEvent
-      this.currentX += movementX
-      this.currentY += movementY
-      this.setPosition(this.currentX, this.currentY, 0)
+
+      const { pageX, pageY } = e.nativeEvent
+      const { screenCenter, xOffset, yOffset } = this.dragStartEvent
+
+      this.currentX = pageX + xOffset - screenCenter.x
+      this.currentY = pageY + yOffset - screenCenter.y
+
+      this.setPosition(this.currentX, this.currentY)
     }
 
-    startDrag() {
+    startDrag(e) {
       this.dragging = true
       this.dragged = false
-      const { translateX, translateY, translateZ } = this.state
-      this.setPosition(translateX, translateY, translateZ)
+
+      const { translateX, translateY } = this.state
+      this.setPosition(translateX, translateY)
+
+      // Calculate initial values
+      const initialNoteTranslate = {
+        x: this.state.translateX,
+        y: this.state.translateY,
+      }
+
+      const screenCenter = {
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2
+      }
+
+      const trueNotePosition = {
+        x: screenCenter.x + initialNoteTranslate.x,
+        y: screenCenter.y + initialNoteTranslate.y
+      }
+
+      const { pageX, pageY } = e.nativeEvent
+
+      const xOffset = trueNotePosition.x - pageX
+      const yOffset = trueNotePosition.y - pageY
+
+      this.dragStartEvent = {
+        screenCenter,
+        xOffset,
+        yOffset
+      }
+
       this.setState({
         classes: ['note', 'dragging']
       })
@@ -109,6 +141,8 @@ function Note() {
 
     stopDrag() {
       this.dragging = false
+
+      // Only save if the note's been dragged
       if (!this.dragged) return
       this.dragged = false
       this.setState({

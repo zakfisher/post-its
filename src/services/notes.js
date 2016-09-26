@@ -7,13 +7,12 @@ let Notes = {}
 const hasLocalStorage = GLOBAL.hasOwnProperty('localStorage')
 
 const DemoNote = {
-  id: 'demo',
   demo: true,
+  id: 'demo',
   title: 'My First Note',
   text: 'This is a note.\n\nYou can add, edit, drag, and remove notes.\n\nThe notes are cached in localStorage, so if you refresh they\'ll still be there!',
   translateX: 0,
-  translateY: 0,
-  translateZ: 0,
+  translateY: 0
 }
 
 Notes.Actions = Reflux.createActions([
