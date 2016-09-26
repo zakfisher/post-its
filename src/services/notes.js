@@ -4,7 +4,7 @@ import Reflux from 'reflux'
 import _ from 'lodash'
 
 let Notes = {}
-const hasLocalStorage = GLOBAL.hasOwnProperty('localStorage')
+const hasLocalStorage = !!GLOBAL.localStorage
 
 const DemoNote = {
   demo: true,
